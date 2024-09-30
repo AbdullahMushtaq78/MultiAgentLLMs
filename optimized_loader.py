@@ -20,7 +20,8 @@ class Essay:
             economically_disadvantaged=None,
             student_disability_status=None,
             essay_word_count=None,
-            discourses=None
+            discourses=None,
+            discourses_effectiveness = None
     ):
         self.essay_id = essay_id
         self.full_text = full_text
@@ -37,6 +38,7 @@ class Essay:
         self.economically_disadvantaged = economically_disadvantaged if pd.notna(economically_disadvantaged) else "Unknown"
         self.student_disability_status = student_disability_status if pd.notna(student_disability_status) else "Unknown"
         self.discourses = discourses
+        self.discourses_effectiveness = discourses_effectiveness
 
 class Dataset:
     def __init__(self, PATH="PERSUADE/persuade_corpus_2.0.csv", batch_size=1, shuffle=False, set_type='train'):
@@ -47,31 +49,23 @@ class Dataset:
         self.__init_dataset()
 
     def __init_dataset(self):
-        # Filter dataset by set_type once
+        
         filtered_data = self.data[self.data['competition_set'] == self.set_type]
-        
-        # Create a dictionary to store essays
+        filtered_data['discourse_effectiveness'] = filtered_data['discourse_effectiveness'].fillna('Unknown')
         essays_dict = {}
-        
-        # Group by 'essay_id'
         grouped = filtered_data.groupby('essay_id')
-        
-        # List of discourse types
         discourse_types = ['Unannotated', 'Lead', 'Position', 'Evidence', 'Claim', 'Concluding Statement', 'Counterclaim', 'Rebuttal']
-        
-        # Iterate over grouped data
         for essay_id, group in tqdm(grouped, desc="Loading data"):
             f_values = group.iloc[0][['essay_id', 'competition_set', 'full_text', 'holistic_essay_score', 'task', 'prompt_name', 'assignment', 'gender', 'grade_level', 'ell_status', 'race_ethnicity', 'economically_disadvantaged', 'student_disability_status', 'essay_word_count']].to_dict()
-            
-            # Sort the group by 'discourse_type_num' and then by 'discourse_type'
             group_sorted = group.sort_values(by=['discourse_type', 'discourse_type_num'])
             
             discourses = {}
+            effectiveness = {}
             for d_type in discourse_types:
                 discourse_group = group_sorted[group_sorted['discourse_type'] == d_type]
-                discourses[d_type] = list(zip(discourse_group['discourse_text'], discourse_group['discourse_effectiveness']))
-                
-            essays_dict[essay_id] = Essay(**f_values, discourses=discourses)
+                discourses[d_type] = list(discourse_group['discourse_text'])
+                effectiveness[d_type] = list(discourse_group['discourse_effectiveness'])
+            essays_dict[essay_id] = Essay(**f_values, discourses=discourses, discourses_effectiveness=effectiveness)
         
         self.essays = list(essays_dict.values())
 
@@ -91,8 +85,3 @@ class Dataset:
         self.current_index += self.batch_size
         return batch
 
-# Usage
-dataset = Dataset(batch_size=5, shuffle=False, set_type='train')
-for batch in dataset:
-    print(batch)
-    break
