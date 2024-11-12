@@ -87,8 +87,19 @@ python essay_judge.py --num_essays  --set_type  --output_dir
 - **--set_type**: Set type from the dataset (train/test) (by default="train")
 - **--output_dir**: Directory to save the results of evaluation. (by default="results/")
 
-Note: Upon running the evaluation file, you will be asked to enter your OpenAI API Key to be able to use GPT-4o-mini as backend LLM.
+Note: To run the evaluation file successfully, you need to set the OpenAI API Key. You can use any of the following methods to set the API key:
 
+```bash 
+export OPENAI_API_KEY="your_api_key_here"
+```
+For this option, you can use the terminal.
+
+OR
+
+```python
+os.environ["OPENAI_API_KEY"] = "your_api_key_here"
+```
+For this option, you need to place this line in the code before instantiating the agents.
 
 ### Output
 The output file will be created with the naming scheme: 
