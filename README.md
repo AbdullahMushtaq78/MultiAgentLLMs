@@ -4,7 +4,7 @@ A LLMs-based Multi-Agent project for education.
 
 ## Dataset: [PERSUADE 2.0](https://github.com/scrosseye/persuade_corpus_2.0)
 
-Dataset on essay from an essay writing competition to collect the dataset for NLP-related tasks. Contains over 25K+ essays divided into train and test sections. Complete annotated essay with holistic essay score as ground truth by actual instructors. 
+Dataset on the essay from an essay writing competition to collect the dataset for NLP-related tasks. Contains over 25K+ essays divided into train and test sections. Complete annotated essay with holistic essay score as ground truth by actual instructors. 
 ### Data in the Dataset
 - essay_id
 - competition_set (train/test)
@@ -20,18 +20,18 @@ Dataset on essay from an essay writing competition to collect the dataset for NL
 - economically_disadvantaged
 - student_disability_status
 - essay_word_count
-- discourses (Each essay consists of the different "section" (or discourses as used in the dataset). These sections defines different parts extracted from the essay like Position, Claim, Counter Claim, Summary, etc.)
-- discourses_effectiveness (Ground truth per discourse for overall effectiveness of that part in essay)
+- discourses (Each essay consists of a different "section" (or discourses as used in the dataset). These sections define different parts extracted from the essay like Position, Claim, Counter Claim, Summary, etc.)
+- discourses_effectiveness (Ground truth per discourse for the overall effectiveness of that part in the essay)
 
 
 ### Dataset Loader:
 A [python script](./optimized_loader.py) to read and parse the dataset into useable form for the project. With functionalities like Batch size, set type (train/test), shuffle, etc.
 
-- **Essay Class** to store all the infromation about each essay. 
-- **Dataset Class** to filter, parse and create a dataset of all the essays using the Essay class and implements the batch retrieval functions for smooth usage during evaluation or training.
+- **Essay Class** to store all the information about each essay. 
+- **Dataset Class** to filter, parse, and create a dataset of all the essays using the Essay class and implement the batch retrieval functions for smooth usage during evaluation or training.
 
 ## Personas
-Each Agent have it's own persona defined in the [persona.py](./persona.py) file. Right now, there are 7 Agents all covering each section of the essay separately.
+Each Agent has its own persona defined in the [persona.py](./persona.py) file. Right now, there are 7 Agents all covering each section of the essay separately.
 **Agents List**:
 - Position Agent 
 - Claim Agent 
@@ -50,12 +50,12 @@ Each Agent have it's own persona defined in the [persona.py](./persona.py) file.
 Currently using *GPT4o-mini* with API as the backbone model of all the agents. 
 Originally started this project with Open-source models but due to a [bug](https://github.com/camel-ai/camel/issues/977) in the  Camel AI's ModelType class had to shift to close-source models.
 ### Task Processing
-Using the [WorkForce](https://docs.camel-ai.org/key_modules/workforce.html) module in the camel ai framework to create multi-agent society/workforce to perform the task. GPT4o-mini is also being used as backbone model for coordinator manager and task manager roles in the workforce.
+Using the [WorkForce](https://docs.camel-ai.org/key_modules/workforce.html) module in the Camel AI framework to create a multi-agent society/workforce to perform the task. GPT4o-mini is also being used as a backbone model for coordinator manager and task manager roles in the workforce.
 
 
 
 ## Running the Code
-Setup the environment as mentioned in the official Camel AI's [documentation](https://docs.camel-ai.org/get_started/setup.html). Conda method is prefered and used during the implementation.
+Set up the environment as mentioned in the official Camel AI's [documentation](https://docs.camel-ai.org/get_started/setup.html). The Conda method is preferred and used during the implementation.
 
 ### Setting up the environment for Camel AI and the code:
 
@@ -76,7 +76,7 @@ git clone https://github.com/AbdullahMushtaq78/MultiAgentLLMs.git
 ### Download Dataset
 [Download](https://github.com/scrosseye/persuade_corpus_2.0) the PERSUADE 2.0 dataset.
 
-Create a foler named as "PERSUADE" and move the dataset to that folder.
+Create a folder named as "PERSUADE" and move the dataset to that folder.
 
 ### Run the evaluation file:
 ```bash
@@ -87,8 +87,11 @@ python essay_judge.py --num_essays  --set_type  --output_dir
 - **--set_type**: Set type from the dataset (train/test) (by default="train")
 - **--output_dir**: Directory to save the results of evaluation. (by default="results/")
 
+Note: Upon running the evaluation file, you will be asked to enter your OpenAI API Key to be able to use GPT-4o-mini as backend LLM.
+
+
 ### Output
-Output file will be created with the naming scheme as: 
+The output file will be created with the naming scheme: 
 ```python
 output_filename = f"essays_count_{num_essays}_{current_time}.csv"
 df.to_csv(output_dir+output_filename, index=False)    
@@ -100,7 +103,7 @@ df.to_csv(output_dir+output_filename, index=False)
 
 
 <!-- ## Files to ignore:
-These are the extra files primarily used for implementing the same project with open source models. Due to a [bug](https://github.com/camel-ai/camel/issues/977) in the Camel AI's source code specifically in ModelType class, had to shift to OpenAI models like GPT4o-mini.
+These are the extra files primarily used for implementing the same project with open-source models. Due to a [bug](https://github.com/camel-ai/camel/issues/977) in the Camel AI's source code specifically in the ModelType class, had to shift to OpenAI models like GPT4o-mini.
 - [llama3.sh](./llama3.sh)
 - [Llama3ModelFile](./Llama3ModelFile)
 
