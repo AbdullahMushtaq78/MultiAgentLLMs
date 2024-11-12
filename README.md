@@ -2,7 +2,7 @@
 
 A LLMs-based Multi-Agent project for education.
 
-## Dataset: [PERSUADE 2.0](https://github.com/scrosseye/persuad_corpus_2.0)
+## Dataset: [PERSUADE 2.0](https://github.com/scrosseye/persuade_corpus_2.0)
 
 Dataset on essay from an essay writing competition to collect the dataset for NLP-related tasks. Contains over 25K+ essays divided into train and test sections. Complete annotated essay with holistic essay score as ground truth by actual instructors. 
 ### Data in the Dataset
@@ -74,7 +74,7 @@ git clone https://github.com/AbdullahMushtaq78/MultiAgentLLMs.git
 ```
 
 ### Download Dataset
-[Download](https://github.com/scrosseye/persuad_corpus_2.0) the PERSUADE 2.0 dataset.
+[Download](https://github.com/scrosseye/persuade_corpus_2.0) the PERSUADE 2.0 dataset.
 
 Create a foler named as "PERSUADE" and move the dataset to that folder.
 
